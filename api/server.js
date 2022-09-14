@@ -1,0 +1,136 @@
+var express = require("express");
+const fs = require('fs')
+var app = express();
+const port = 8081;
+const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
+const ffmpeg = require('fluent-ffmpeg');
+const fileIds = new Set(fs.readdirSync(__dirname + '/videos').map(x => x.substring(0, x.indexOf('_'))))
+ffmpeg.setFfmpegPath(ffmpegInstaller.path);
+
+app.get("/url=:url", async (req, res) => {
+    const videoInfo = await fetchInfo(
+        req.params.url
+    );
+    if (videoInfo.isError) {
+        res.status(400)
+        res.send(videoInfo.message);
+        return
+    }
+    if (videoInfo.message[0]?.data?.children[0]?.data?.is_reddit_media_domain) {
+        const vid = videoInfo.message[0]?.data?.children[0]?.data.secure_media.reddit_video.fallback_url
+        const id = videoInfo.message[0]?.data?.children[0]?.data.url.split('/').at(-1)
+        if (!fileIds.has(id)) {
+            const audio = 'https://v.redd.it/' + id + '/DASH_audio.mp4'
+            await downloadItem(vid, __dirname + '/videos/' + id + '.mp4')
+            await downloadItem(audio, __dirname + '/videos/' + id + '_audio.mp4')
+            await combineClip(id, __dirname + '/videos')
+            fs.unlink(`${__dirname}/videos/${id}_audio.mp4`, function (err) {
+                if (err) console.log(err)
+            })
+            fs.unlink(`${__dirname}/videos/${id}.mp4`, function (err) {
+                if (err) console.log(err)
+            })
+            fileIds.add(id)
+        }
+        const videoStream = fs.createReadStream(`${__dirname}/videos/${id}_output.mp4`);
+        res.writeHead(200, {
+            "Content-Type": "video/mp4"
+        })
+        videoStream.pipe(res);
+    }
+});
+
+var server = app.listen(8081, function () {
+    var host = server.address().address;
+    var port = server.address().port;
+    console.log("Example app listening at http://%s:%s", host, port);
+});
+
+async function fetchInfo(url) {
+    let options = {
+        method: "GET",
+        headers: {
+            authority: "www.reddit.com",
+            accept:
+                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+            "accept-language": "en-US,en;q=0.9",
+            "cache-control": "max-age=0",
+            cookie: "recent_srs=; ",
+            "sec-fetch-dest": "document",
+            "sec-fetch-mode": "navigate",
+            "sec-fetch-site": "none",
+            "sec-fetch-user": "?1",
+            "sec-gpc": "1",
+            "upgrade-insecure-requests": "1",
+            "user-agent":
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
+        },
+    };
+    url = url + '.json'
+    let obj = {
+        message: "",
+        isError: false,
+    };
+    return await fetch(url, options)
+        .then((data) => data.json())
+        .then((json) => {
+            obj.message = json;
+            obj.isError = false;
+            return obj;
+        })
+        .catch((err) => {
+            (obj.message = "error:" + err), (obj.isError = true);
+            return obj;
+        });
+}
+
+async function downloadItem(url, path) {
+    let options = {
+        method: "GET",
+        headers: {
+            authority: "www.reddit.com",
+            accept:
+                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+            "accept-language": "en-US,en;q=0.9",
+            "cache-control": "max-age=0",
+            cookie: "recent_srs=; ",
+            "sec-fetch-dest": "document",
+            "sec-fetch-mode": "navigate",
+            "sec-fetch-site": "none",
+            "sec-fetch-user": "?1",
+            "sec-gpc": "1",
+            "upgrade-insecure-requests": "1",
+            "user-agent":
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
+        },
+    };
+    let obj = {
+        message: "",
+        isError: false,
+    };
+    let resp = await fetch(url, options)
+        .then((data) => data)
+
+    const download_write_stream = fs.createWriteStream(path)
+    const stream = new WritableStream({
+        write(chunk) {
+            download_write_stream.write(chunk);
+        },
+    });
+
+    await resp.body.pipeTo(stream)
+    return obj
+}
+
+async function combineClip(id, path) {
+    await new Promise((resolve) => {
+        ffmpeg(`${path}/${id}.mp4`)
+            .mergeAdd(`${path}/${id}_audio.mp4`)
+            .format('mp4')
+            .output(`${path}/${id}_output.mp4`)
+            .on('end', function () {
+                resolve(1)
+            })
+            .run()
+    })
+}
