@@ -34,11 +34,12 @@ app.get("/", async (req, res) => {
                 })
                 fileIds.add(id)
             }
-            const videoStream = fs.createReadStream(`${__dirname}/videos/${id}_output.mp4`);
-            res.writeHead(200, {
-                "Content-Type": "video/mp4"
-            })
-            videoStream.pipe(res);
+            // const videoStream = fs.createReadStream(`${__dirname}/videos/${id}_output.mp4`);
+            // res.writeHead(200, {
+            //     "Content-Type": "video/mp4"
+            // })
+            // videoStream.pipe(res);
+            res.sendFile(`${__dirname}/videos/${id}_output.mp4`)
         }
     } else {
         res.send("rExtract Server is running!");
