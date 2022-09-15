@@ -8,6 +8,7 @@ const fileIds = new Set(fs.readdirSync(__dirname + '/videos').map(x => x.substri
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
 app.get("/url=:url", async (req, res) => {
+    console.log("processing....")
     const videoInfo = await fetchInfo(
         req.params.url
     );
@@ -40,10 +41,8 @@ app.get("/url=:url", async (req, res) => {
     }
 });
 
-var server = app.listen(port, function () {
-    var host = server.address().address;
-    var port = server.address().port;
-    console.log("Example app listening at http://%s:%s", host, port);
+const server = app.listen(port, () => {
+    console.log(`Listening on http://localhost:${port}`);
 });
 
 async function fetchInfo(url) {
