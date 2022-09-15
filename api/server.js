@@ -41,8 +41,8 @@ app.get("/", async (req, res) => {
             videoStream.pipe(res);
         }
     } else {
-
-    } res.send("rExtract Server is running!");
+        res.send("rExtract Server is running!");
+    }
 });
 
 const server = app.listen(port, () => {
