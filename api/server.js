@@ -41,6 +41,10 @@ app.get("/url=:url", async (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.send("rExtract Server is running!");
+});
+
 const server = app.listen(port, () => {
     console.log(`Listening on http://localhost:${port}`);
 });
