@@ -34,20 +34,18 @@ app.get("/", async (req, res) => {
                 })
                 fileIds.add(id)
             }
-            // const videoStream = fs.createReadStream(`${__dirname}/videos/${id}_output.mp4`);
-            // res.writeHead(200, {
-            //     "Content-Type": "video/mp4"
-            // })
-            // videoStream.pipe(res);
             res.sendFile(`${__dirname}/videos/${id}_output.mp4`)
         }
-    } 
+    }
 });
 
 app.get("/server_status", (req, res) => {
     res.send("rExtract Server is running!");
 })
 
+app.get('/sped_falling', (req, res) => {
+    res.sendFile(`${__dirname}/videos/SnapTik_6862452423156305158.mp4`)
+})
 const server = app.listen(port, () => {
     console.log(`Listening on http://localhost:${port}`);
 });
