@@ -7,42 +7,42 @@ const ffmpeg = require('fluent-ffmpeg');
 const fileIds = new Set(fs.readdirSync(__dirname + '/videos').map(x => x.substring(0, x.indexOf('_'))))
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
-app.get("/url=:url", async (req, res) => {
-    console.log("processing....")
-    const videoInfo = await fetchInfo(
-        req.params.url
-    );
-    if (videoInfo.isError) {
-        res.status(400)
-        res.send(videoInfo.message);
-        return
-    }
-    if (videoInfo.message[0]?.data?.children[0]?.data?.is_reddit_media_domain) {
-        const vid = videoInfo.message[0]?.data?.children[0]?.data.secure_media.reddit_video.fallback_url
-        const id = videoInfo.message[0]?.data?.children[0]?.data.url.split('/').at(-1)
-        if (!fileIds.has(id)) {
-            const audio = 'https://v.redd.it/' + id + '/DASH_audio.mp4'
-            await downloadItem(vid, __dirname + '/videos/' + id + '.mp4')
-            await downloadItem(audio, __dirname + '/videos/' + id + '_audio.mp4')
-            await combineClip(id, __dirname + '/videos')
-            fs.unlink(`${__dirname}/videos/${id}_audio.mp4`, function (err) {
-                if (err) console.log(err)
-            })
-            fs.unlink(`${__dirname}/videos/${id}.mp4`, function (err) {
-                if (err) console.log(err)
-            })
-            fileIds.add(id)
+app.get("/", async (req, res) => {
+    if (req.query.url) {
+        console.log("processing....")
+        const videoInfo = await fetchInfo(
+            req.params.url
+        );
+        if (videoInfo.isError) {
+            res.status(400)
+            res.send(videoInfo.message);
+            return
         }
-        const videoStream = fs.createReadStream(`${__dirname}/videos/${id}_output.mp4`);
-        res.writeHead(200, {
-            "Content-Type": "video/mp4"
-        })
-        videoStream.pipe(res);
-    }
-});
+        if (videoInfo.message[0]?.data?.children[0]?.data?.is_reddit_media_domain) {
+            const vid = videoInfo.message[0]?.data?.children[0]?.data.secure_media.reddit_video.fallback_url
+            const id = videoInfo.message[0]?.data?.children[0]?.data.url.split('/').at(-1)
+            if (!fileIds.has(id)) {
+                const audio = 'https://v.redd.it/' + id + '/DASH_audio.mp4'
+                await downloadItem(vid, __dirname + '/videos/' + id + '.mp4')
+                await downloadItem(audio, __dirname + '/videos/' + id + '_audio.mp4')
+                await combineClip(id, __dirname + '/videos')
+                fs.unlink(`${__dirname}/videos/${id}_audio.mp4`, function (err) {
+                    if (err) console.log(err)
+                })
+                fs.unlink(`${__dirname}/videos/${id}.mp4`, function (err) {
+                    if (err) console.log(err)
+                })
+                fileIds.add(id)
+            }
+            const videoStream = fs.createReadStream(`${__dirname}/videos/${id}_output.mp4`);
+            res.writeHead(200, {
+                "Content-Type": "video/mp4"
+            })
+            videoStream.pipe(res);
+        }
+    } else {
 
-app.get('/', (req, res) => {
-    res.send("rExtract Server is running!");
+    } res.send("rExtract Server is running!");
 });
 
 const server = app.listen(port, () => {
