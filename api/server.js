@@ -41,13 +41,11 @@ app.get("/", async (req, res) => {
             // videoStream.pipe(res);
             res.sendFile(`${__dirname}/videos/${id}_output.mp4`)
         }
-    } else {
-        res.send("rExtract Server is running!");
-    }
+    } 
 });
 
-app.get("/sped_falling", (req, res) => {
-    res.sendFile(`${__dirname}/SnapTik_6862452423156305158.mp4`)
+app.get("/server_status", (req, res) => {
+    res.send("rExtract Server is running!");
 })
 
 const server = app.listen(port, () => {
