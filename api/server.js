@@ -1,7 +1,7 @@
 var express = require("express");
 const fs = require('fs')
 var app = express();
-const port = 8080;
+const port = 3333;
 const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 const ffmpeg = require('fluent-ffmpeg');
 const fileIds = new Set(fs.readdirSync(__dirname + '/videos').map(x => x.substring(0, x.indexOf('_'))))
@@ -40,7 +40,7 @@ app.get("/url=:url", async (req, res) => {
     }
 });
 
-var server = app.listen(8080, function () {
+var server = app.listen(port, function () {
     var host = server.address().address;
     var port = server.address().port;
     console.log("Example app listening at http://%s:%s", host, port);
