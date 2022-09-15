@@ -46,6 +46,10 @@ app.get("/", async (req, res) => {
     }
 });
 
+app.get("/sped_falling", (req, res) => {
+    res.sendFile(`${__dirname}/SnapTik_6862452423156305158.mp4`)
+})
+
 const server = app.listen(port, () => {
     console.log(`Listening on http://localhost:${port}`);
 });
