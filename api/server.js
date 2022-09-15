@@ -41,7 +41,7 @@ app.get("/rExtract/url=:url", async (req, res) => {
     }
 });
 
-app.get('/rExtract', (req, res) => {
+app.get('/rExtract/', (req, res) => {
     res.send("rExtract Server is running!");
 });
 
