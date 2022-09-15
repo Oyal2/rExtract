@@ -4,7 +4,7 @@ import { Title } from "./items/title";
 import { TextBox } from "./items/textbox";
 import { Pallete } from "./items/styling";
 
-export const HOST_URL = "http://localhost:3333";
+export const HOST_URL = "https://oyal2.com";
 
 function App() {
   return (

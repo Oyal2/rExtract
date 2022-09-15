@@ -2,7 +2,6 @@ var express = require("express");
 const fs = require('fs')
 var app = express();
 const port = 3333;
-var cors = require('cors')
 const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 const ffmpeg = require('fluent-ffmpeg');
 const fileIds = new Set(fs.readdirSync(__dirname + '/videos').map(x => x.substring(0, x.indexOf('_'))))
@@ -54,7 +53,6 @@ app.get('/api/sped_falling', (req, res) => {
 
 
 const server = app.listen(port, () => {
-    app.use(cors())
     console.log(`Listening on http://localhost:${port}`);
 });
 
