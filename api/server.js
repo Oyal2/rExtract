@@ -11,7 +11,7 @@ app.get("/", async (req, res) => {
     if (req.query.url) {
         console.log("processing....")
         const videoInfo = await fetchInfo(
-            req.params.url
+            req.query.url
         );
         if (videoInfo.isError) {
             res.status(400)
