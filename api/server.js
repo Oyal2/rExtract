@@ -7,7 +7,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const fileIds = new Set(fs.readdirSync(__dirname + '/videos').map(x => x.substring(0, x.indexOf('_'))))
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
-app.get("api/rExtract", async (req, res) => {
+app.get("/api/rExtract", async (req, res) => {
     if (req.query.url) {
         console.log("processing....")
         const videoInfo = await fetchInfo(
@@ -39,11 +39,11 @@ app.get("api/rExtract", async (req, res) => {
     }
 });
 
-app.get("api/server_status", (req, res) => {
+app.get("/api/server_status", (req, res) => {
     res.send("rExtract Server is running!");
 })
 
-app.get('api/sped_falling', (req, res) => {
+app.get('/api/sped_falling', (req, res) => {
     res.sendFile(`${__dirname}/videos/SnapTik_6862452423156305158.mp4`)
 })
 const server = app.listen(port, () => {
