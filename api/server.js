@@ -7,7 +7,7 @@ const ffmpeg = require('fluent-ffmpeg');
 const fileIds = new Set(fs.readdirSync(__dirname + '/videos').map(x => x.substring(0, x.indexOf('_'))))
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
-app.get("/", async (req, res) => {
+app.get("/rExtract", async (req, res) => {
     if (req.query.url) {
         console.log("processing....")
         const videoInfo = await fetchInfo(
