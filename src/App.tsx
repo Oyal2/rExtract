@@ -4,6 +4,8 @@ import { Title } from "./items/title";
 import { TextBox } from "./items/textbox";
 import { Pallete } from "./items/styling";
 
+export const HOST_URL = "http://localhost:3333";
+
 function App() {
   return (
     <>
@@ -12,7 +14,7 @@ function App() {
           <ReactLogo width="10%" height="auto" />
         </Flex>
         <Flex margin="32px">
-          <Flex width="50vh" height="30vh">
+          <Flex width="50vh" height="15vh">
             <Title
               text="Start Extracting and Sharing Reddit Videos"
               color={Pallete.white}

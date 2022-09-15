@@ -2,6 +2,7 @@ var express = require("express");
 const fs = require('fs')
 var app = express();
 const port = 3333;
+var cors = require('cors')
 const ffmpegInstaller = require('@ffmpeg-installer/ffmpeg');
 const ffmpeg = require('fluent-ffmpeg');
 const fileIds = new Set(fs.readdirSync(__dirname + '/videos').map(x => x.substring(0, x.indexOf('_'))))
@@ -34,6 +35,10 @@ app.get("/api/rExtract", async (req, res) => {
                 })
                 fileIds.add(id)
             }
+            res.setHeader("Access-Control-Allow-Origin", "*")
+            res.setHeader("Access-Control-Allow-Credentials", "true");
+            res.setHeader("Access-Control-Max-Age", "1800");
+            res.setHeader("Access-Control-Allow-Headers", "content-type");
             res.sendFile(`${__dirname}/videos/${id}_output.mp4`)
         }
     }
@@ -46,9 +51,14 @@ app.get("/api/server_status", (req, res) => {
 app.get('/api/sped_falling', (req, res) => {
     res.sendFile(`${__dirname}/videos/SnapTik_6862452423156305158.mp4`)
 })
+
+
 const server = app.listen(port, () => {
+    app.use(cors())
     console.log(`Listening on http://localhost:${port}`);
 });
+
+
 
 async function fetchInfo(url) {
     let options = {
