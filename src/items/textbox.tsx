@@ -1,3 +1,4 @@
+import { hostname } from "os";
 import React from "react";
 import {
   Button,
@@ -38,6 +39,24 @@ export function TextBox(props: TextBoxProps) {
           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
       },
     };
+    try {
+      const urlTest = new URL(url);
+      const urlParam = urlTest.searchParams.get("url");
+      if (!urlParam) throw "There is no reddit url";
+      const redditUrl = new URL(urlParam);
+      if (redditUrl.origin != "https://www.reddit.com")
+        throw "Not a reddit url";
+      if (redditUrl.pathname == "") throw "There is no reddit path";
+      urlTest.search = "";
+      urlTest.searchParams.set(
+        "url",
+        `${redditUrl.origin}${redditUrl.pathname}`
+      );
+      url = urlTest.toString();
+    } catch (err) {
+      console.error("error: " + err);
+      return;
+    }
 
     fetch(url, options)
       .then(() => {

@@ -11,7 +11,7 @@ function MobileLayout() {
     <>
       <Flex>
         <Flex width="100%" height="100%" marginTop="20%" textAlign="center">
-          <ReactLogo width={300} height={200} />
+          <ReactLogo width={200} height={200} />
         </Flex>
         <Flex textAlign="center">
           <Title
