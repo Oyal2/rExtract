@@ -1,5 +1,11 @@
 import React, { ReactNode } from "react";
-import { AlignItems, FlexDirection, FlexWrap, JustifyContent } from "./styling";
+import {
+  AlignItems,
+  FlexDirection,
+  FlexWrap,
+  JustifyContent,
+  TextAlign,
+} from "./styling";
 
 interface FlexProps {
   backgroundColor?: string;
@@ -19,8 +25,11 @@ interface FlexProps {
   padding?: string;
   children?: ReactNode;
   alignSelf?: string;
+  textAlign?: TextAlign;
   marginRight?: string;
   marginLeft?: string;
+  marginTop?: string;
+  marginBottom?: string;
 }
 
 export const Flex = React.memo((props: FlexProps) => {
@@ -44,6 +53,9 @@ export const Flex = React.memo((props: FlexProps) => {
     alignSelf,
     marginRight,
     marginLeft,
+    marginTop,
+    marginBottom,
+    textAlign,
   } = props;
 
   const cssProps: React.CSSProperties = {
@@ -63,10 +75,13 @@ export const Flex = React.memo((props: FlexProps) => {
     height: height || "auto",
     maxWidth,
     alignSelf,
+    textAlign,
   };
 
   if (marginLeft) cssProps.marginLeft = marginLeft;
   if (marginRight) cssProps.marginRight = marginRight;
+  if (marginTop) cssProps.marginTop = marginTop;
+  if (marginBottom) cssProps.marginBottom = marginBottom;
 
   return <div style={cssProps}>{children}</div>;
 });

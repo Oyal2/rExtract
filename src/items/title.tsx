@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { AlignItems, FontSize, JustifyContent } from "./styling";
+import { AlignItems, FontSize, JustifyContent, TextAlign } from "./styling";
 
 interface Titleprops {
   color?: string;
@@ -12,6 +12,7 @@ interface Titleprops {
   padding?: string;
   justifyContent?: JustifyContent;
   text: string;
+  textAlign?: TextAlign;
 }
 
 export const Title = React.memo((props: Titleprops) => {
@@ -26,6 +27,7 @@ export const Title = React.memo((props: Titleprops) => {
     fontSize,
     text,
     justifyContent,
+    textAlign,
   } = props;
   return (
     <>
@@ -40,6 +42,7 @@ export const Title = React.memo((props: Titleprops) => {
           height: height || "auto",
           maxWidth: maxWidth || "none",
           justifyContent: justifyContent,
+          textAlign,
         }}
       >
         {text}

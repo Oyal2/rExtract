@@ -7,7 +7,7 @@ import {
   Loader,
 } from "semantic-ui-react";
 import { text } from "stream/consumers";
-import { HOST_URL } from "../App";
+import { HOST_URL } from "../DekstopLayout";
 
 interface TextBoxProps {
   placeholder: string;
@@ -61,7 +61,7 @@ export function TextBox(props: TextBoxProps) {
           setLoading(false);
         },
       }}
-      size="large"
+      size="small"
       fluid
       onChange={(
         e: React.ChangeEvent<HTMLInputElement>,

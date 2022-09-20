@@ -1,4 +1,4 @@
-export type FontSize = "24px" | "36px" | "48px";
+export type FontSize = "16px" | "24px" | "36px" | "48px";
 export type FlexDirection = "row" | "row-reverse" | "column" | "column-reverse";
 export type FlexWrap = "nowrap" | "wrap" | "wrap-reverse";
 export type AlignItems =
@@ -57,10 +57,19 @@ export type JustifyContent =
   | "unset";
 
 export enum Pallete {
-  black = "#000000ff",
+  black = "#0D0E0D",
   lighter_black = "#111111ff",
   lightest_black = "#333333ff",
   white = "#ffffffff",
   default_text = "#d1342fff",
   dutch_white = "#eee3c1ff",
 }
+
+export type TextAlign =
+  | "start"
+  | "end"
+  | "left"
+  | "right"
+  | "center"
+  | "justify"
+  | "match-parent";

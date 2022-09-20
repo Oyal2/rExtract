@@ -6,7 +6,7 @@ import { Pallete } from "./items/styling";
 
 export const HOST_URL = "https://oyal2.com";
 
-function App() {
+function DesktopLayout() {
   return (
     <>
       <Flex width="100%" height="100vh" backgroundColor={Pallete.black}>
@@ -39,4 +39,4 @@ function App() {
   );
 }
 
-export default App;
+export default DesktopLayout;
