@@ -34,7 +34,7 @@ function MobileLayout() {
           />
         </Flex>
         <Flex marginLeft="auto" marginRight="auto" width="90%" marginTop="20%">
-          <TextBox placeholder={"Please enter a reddit URL..."} />
+          <TextBox placeholder={"Please enter a reddit URL..."} size="small" />
         </Flex>
       </Flex>
     </>

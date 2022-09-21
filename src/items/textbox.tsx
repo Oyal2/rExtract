@@ -12,10 +12,11 @@ import { HOST_URL } from "../DekstopLayout";
 
 interface TextBoxProps {
   placeholder: string;
+  size?: "mini" | "small" | "large" | "big" | "huge" | "massive";
 }
 
 export function TextBox(props: TextBoxProps) {
-  const { placeholder } = props;
+  const { placeholder, size } = props;
   const [isLoading, setLoading] = React.useState(false);
   const [textValue, setTextValue] = React.useState("");
   const [showVideo, setVideo] = React.useState("");
@@ -80,7 +81,7 @@ export function TextBox(props: TextBoxProps) {
           setLoading(false);
         },
       }}
-      size="small"
+      size={size}
       fluid
       onChange={(
         e: React.ChangeEvent<HTMLInputElement>,
