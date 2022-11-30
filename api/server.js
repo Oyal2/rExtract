@@ -120,12 +120,13 @@ async function downloadItem(url, path) {
         message: "",
         isError: false,
     };
+
+    console.log(url)
     let resp = await fetch(url, options)
         .then((data) => data).catch((err) => {
             console.log(err)
         })
 
-    console.log(resp)
 
     const download_write_stream = fs.createWriteStream(path)
     const stream = new WritableStream({
