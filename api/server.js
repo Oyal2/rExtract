@@ -91,7 +91,7 @@ async function fetchInfo(url) {
             return obj;
         })
         .catch((err) => {
-            (obj.message = "error:" + err), (obj.isError = true);
+            console.log(err)
             return obj;
         });
 }

@@ -1,10 +1,10 @@
-import { Flex } from "./items/flex";
-import { ReactComponent as ReactLogo } from "./logo.svg";
-import { Title } from "./items/title";
-import { TextBox } from "./items/textbox";
-import { Pallete } from "./items/styling";
+import { Flex } from './items/flex';
+import { ReactComponent as ReactLogo } from './logo.svg';
+import { Title } from './items/title';
+import { TextBox } from './items/textbox';
+import { Pallete } from './items/styling';
 
-export const HOST_URL = "https://oyal2.com";
+export const HOST_URL = 'http://localhost:3333';
 
 function DesktopLayout() {
   return (
@@ -50,7 +50,7 @@ function DesktopLayout() {
           <Flex marginLeft="auto" marginRight="auto" width="50%">
             <TextBox
               placeholder={
-                "Please enter a reddit URL e.g https://www.reddit.com/r/..."
+                'Please enter a reddit URL e.g https://www.reddit.com/r/...'
               }
               size="large"
             />
