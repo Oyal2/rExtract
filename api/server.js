@@ -1,4 +1,5 @@
 var express = require("express");
+const axios = require('axios');
 const fs = require('fs')
 var app = express();
 const port = 3333;
@@ -97,8 +98,32 @@ async function fetchInfo(url) {
 }
 
 async function downloadItem(url, path) {
+    // const options = {
+    //     method: 'GET',
+    //     headers: {
+    //         authority: 'v.redd.it',
+    //         accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+    //         'accept-language': 'en-US,en;q=0.7',
+    //         'cache-control': 'max-age=0',
+    //         'sec-fetch-dest': 'document',
+    //         'sec-fetch-mode': 'navigate',
+    //         'sec-fetch-site': 'none',
+    //         'sec-fetch-user': '?1',
+    //         'sec-gpc': '1',
+    //         'upgrade-insecure-requests': '1',
+    //         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
+    //     },
+    //     timeout: 10000,
+    // };
+    let obj = {
+        message: "",
+        isError: false,
+    };
+
     const options = {
         method: 'GET',
+        url: 'https://v.redd.it/xiwmtqsd57x91/DASH_1080.mp4',
+        params: { source: 'fallback' },
         headers: {
             authority: 'v.redd.it',
             accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
@@ -111,20 +136,14 @@ async function downloadItem(url, path) {
             'sec-gpc': '1',
             'upgrade-insecure-requests': '1',
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
-        },
-        timeout: 10000,
+        }
     };
-    let obj = {
-        message: "",
-        isError: false,
-    };
-
-    console.log(url)
-    let resp = await fetch(url, options)
-        .then((data) => data)
-        .catch((err) => {
-            console.error(err)
-        })
+    console.log("YESSSSSSS")
+    let resp = axios.request(options).then(function (response) {
+        console.log(response.data);
+    }).catch(function (error) {
+        console.error(error);
+    });
 
 
     const download_write_stream = fs.createWriteStream(path)
