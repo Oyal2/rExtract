@@ -125,6 +125,8 @@ async function downloadItem(url, path) {
             console.log(err)
         })
 
+    console.log(resp)
+
     const download_write_stream = fs.createWriteStream(path)
     const stream = new WritableStream({
         write(chunk) {
