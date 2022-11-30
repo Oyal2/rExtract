@@ -105,7 +105,7 @@ async function downloadItem(url, path) {
 
     const options = {
         method: 'GET',
-        url: 'https://v.redd.it/xiwmtqsd57x91/DASH_1080.mp4',
+        url: url,
         params: { source: 'fallback' },
         headers: {
             authority: 'v.redd.it',
@@ -122,6 +122,7 @@ async function downloadItem(url, path) {
         },
         responseType: 'stream',
     };
+    console.log(url)
     const resp = await axios.request(options)
     console.log(resp)
 
