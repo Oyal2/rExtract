@@ -97,24 +97,24 @@ async function fetchInfo(url) {
 }
 
 async function downloadItem(url, path) {
-    let options = {
-        method: "GET",
+    const options = {
+        method: 'GET',
         headers: {
-            authority: "www.reddit.com",
-            accept:
-                "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
-            "accept-language": "en-US,en;q=0.9",
-            "cache-control": "max-age=0",
-            cookie: "recent_srs=; ",
-            "sec-fetch-dest": "document",
-            "sec-fetch-mode": "navigate",
-            "sec-fetch-site": "none",
-            "sec-fetch-user": "?1",
-            "sec-gpc": "1",
-            "upgrade-insecure-requests": "1",
-            "user-agent":
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
-        },
+            authority: 'v.redd.it',
+            accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+            'accept-language': 'en-US,en;q=0.7',
+            'cache-control': 'max-age=0',
+            'if-modified-since': 'Mon, 31 Oct 2022 19:56:58 GMT',
+            'if-none-match': '"b4df5bc759082dcf2a67c25d1eb4634b"',
+            range: 'bytes=0-1048575',
+            'sec-fetch-dest': 'document',
+            'sec-fetch-mode': 'navigate',
+            'sec-fetch-site': 'none',
+            'sec-fetch-user': '?1',
+            'sec-gpc': '1',
+            'upgrade-insecure-requests': '1',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
+        }
     };
     let obj = {
         message: "",
@@ -123,8 +123,9 @@ async function downloadItem(url, path) {
 
     console.log(url)
     let resp = await fetch(url, options)
-        .then((data) => data).catch((err) => {
-            console.log(err)
+        .then((data) => data)
+        .catch((err) => {
+            console.error(err)
         })
 
 
