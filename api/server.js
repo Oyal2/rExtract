@@ -123,6 +123,7 @@ async function downloadItem(url, path) {
         responseType: 'stream',
     };
     const resp = await axios.request(options)
+    console.log(resp)
 
     const download_write_stream = fs.createWriteStream(path)
 
