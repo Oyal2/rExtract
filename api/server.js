@@ -111,7 +111,8 @@ async function downloadItem(url, path) {
             'sec-gpc': '1',
             'upgrade-insecure-requests': '1',
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
-        }
+        },
+        timeout: 10000,
     };
     let obj = {
         message: "",
